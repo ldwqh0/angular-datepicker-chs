@@ -1,0 +1,55 @@
+<div class="ext-datepicker">
+  <div class="form-control" ng-click="isOpen=true">{{value | date:'yyyy-MM-dd'}}</div>
+  <picker-wrapper class="picker-wrapper" ng-if="isOpen">
+    <div ng-show="view==='year'" class="year">
+      <div class="header clearfix">
+        <div class="prev"><a ng-click="prevYears()">前</a></div>
+        <div class="current">{{current.getFullYear()-5}}-{{current.getFullYear()+6}}</div>
+        <div class="next"><a ng-click="nextYears()">后</a></div>
+      </div>
+      <ul class="clearfix">
+        <li ng-repeat="y in getYears()"><a ng-click="setView('month') && setCurrent('year',y)"
+                                           href="javascript:void(0)">{{y}}</a>
+        </li>
+      </ul>
+    </div>
+    <div ng-show="view=='month'" class="month">
+      <div class="header clearfix">
+        <div class="prev"><a href="javascript:void(0)" ng-click="current.setFullYear(current.getFullYear()-1)">前</a>
+        </div>
+        <div class="current"><a ng-click="setView('year')" href="javascript:void(0)">{{current.getFullYear()}}</a></div>
+        <div class="next"><a href="javascript:void(0)" ng-click="current.setFullYear(current.getFullYear()+1)">后</a>
+        </div>
+      </div>
+      <ul class="clearfix">
+        <li ng-repeat="m in months"><a ng-click="setView('day') && setCurrent('month',m)"
+                                       href="javascript:void(0)">{{m+1}}</a></li>
+      </ul>
+    </div>
+    <div ng-show="view=='day'" class="day">
+      <div class="header clearfix">
+        <div class="prev"><a ng-click="prevMonth()">前</a></div>
+        <div class="current">
+          <a ng-click="setView('month')"
+             href="javascript:void(0)">{{current.getFullYear()}}年{{current.getMonth()+1}}月</a>
+        </div>
+        <div class="next"><a ng-click="nextMonth()">后</a></div>
+      </div>
+      <ul class="clearfix">
+        <li>日</li>
+        <li>一</li>
+        <li>二</li>
+        <li>三</li>
+        <li>四</li>
+        <li>五</li>
+        <li>六</li>
+      </ul>
+      <ul class="clearfix">
+        <li ng-repeat="d in getDays()"><a ng-click="setCurrent('date',d) && toHour()"
+                                          href="javascript:void(0)">{{d}}</a>
+        </li>
+      </ul>
+    </div>
+    <div ng-show="view=='hour'">小时视图</div>
+  </picker-wrapper>
+</div>
