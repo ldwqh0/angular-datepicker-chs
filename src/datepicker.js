@@ -40,7 +40,7 @@ function getDays(year, month) {
     return DAYS_IN_MONTH[month]
 }
 
-angular.module.directive('extDatepicker', ['$timeout', function ($timeout) {
+angular.module('datepicker',[]).directive('datepicker', ['$timeout', function ($timeout) {
     return {
         replace: true,
         restrict: 'E',
@@ -195,4 +195,4 @@ angular.module.directive('extDatepicker', ['$timeout', function ($timeout) {
     }
 }])
 
-export default 'extDatepicker'
+export default 'datepicker'

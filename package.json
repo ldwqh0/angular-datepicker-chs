@@ -43,6 +43,7 @@
   },
   "homepage": "https://github.com/ldwqh0/angular-datepicker-chs#readme",
   "peerDependencies": {
+    "angular": "^1.6.0",
     "moment": "^2.0.0"
   }
 }
