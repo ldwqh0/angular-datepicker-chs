@@ -1,9 +1,10 @@
 {
   "name": "angular-datepicker-chs",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/angular-datepicker-chs",
   "scripts": {
+    "prepublish": "rimraf dist && webpack",
     "build": "rimraf dist && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
