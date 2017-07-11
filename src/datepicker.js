@@ -183,15 +183,6 @@ function DatePickerController($scope, $document, $element) {
   // 初始化一次选项卡
   $ctrl.setCurrent()
 
-  function documentClickBind(event) {
-    let dpContainsTarget = isChildrenOf($element[0], event.target) || isChildrenOf($element.find('picker-wrapper')[0], event.target)
-    if ($ctrl.isOpen && !dpContainsTarget) {
-      $scope.$apply(() => {
-        $ctrl.isOpen = false
-      })
-    }
-  }
-
   $ctrl.$onInit = function () {
     $document.on('click', documentClickBind)
   }
@@ -200,6 +191,18 @@ function DatePickerController($scope, $document, $element) {
     $document.off('click', documentClickBind)
   }
 
+  /**
+   * 单击文档的任意部分，隐藏选择框
+   * @param event
+   */
+  function documentClickBind(event) {
+    let dpContainsTarget = isChildrenOf($element[0], event.target) || isChildrenOf($element.find('picker-wrapper')[0], event.target)
+    if ($ctrl.isOpen && !dpContainsTarget) {
+      $scope.$apply(() => {
+        $ctrl.isOpen = false
+      })
+    }
+  }
 
 }
 
