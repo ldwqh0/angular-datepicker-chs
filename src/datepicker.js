@@ -20,27 +20,23 @@ const VIEWS = {
 function viewAfter(a, b) {
   return VIEWS[a] - VIEWS[b] > 0
 }
-/**
- * 获取给定日期的指定月份的第一天的day 也就是星期的数值
- * @param date
- */
-function getFirstDayOfMonth(date) {
-  let d = new Date(date.getTime())
-  d.setDate(1)
-  return d.getDay()
-}
-
 
 /**
- * 获取给定日期的指定月份最后一天的day 也就是星期的数值
- * @param date
+ * 判断一个元素是不是另外一个元素的子代
+ * @param source
+ * @param target
  */
-function getLastDayOfMonth(date) {
-  let year = date.getFullYear()
-  let month = date.getMonth()
-  let d = new Date(date.getTime())
-  d.setDate(getDays(year, month))
-  return d.getDay()
+function isChildrenOf(source, target) {
+  if (target.parentNode) {
+    let parent = target.parentNode
+    if (parent === source) {
+      return true
+    } else {
+      return isChildrenOf(source, parent)
+    }
+  } else {
+    return false
+  }
 }
 
 /**
@@ -68,8 +64,8 @@ let component = {
     miniView: "<?"
   }
 }
-DatePickerController.$inject = ['$scope', '$timeout']
-function DatePickerController($scope, $timeout) {
+DatePickerController.$inject = ['$scope', '$document', '$element']
+function DatePickerController($scope, $document, $element) {
   let $ctrl = this
   $ctrl.current = moment()
   $ctrl.view = 'day'
@@ -186,6 +182,24 @@ function DatePickerController($scope, $timeout) {
 
   // 初始化一次选项卡
   $ctrl.setCurrent()
+
+  function documentClickBind(event) {
+    let dpContainsTarget = isChildrenOf($element[0], event.target) || isChildrenOf($element.find('picker-wrapper')[0], event.target)
+    if ($ctrl.isOpen && !dpContainsTarget) {
+      $scope.$apply(() => {
+        $ctrl.isOpen = false
+      })
+    }
+  }
+
+  $ctrl.$onInit = function () {
+    $document.on('click', documentClickBind)
+  }
+
+  $ctrl.$onDestroy = function () {
+    $document.off('click', documentClickBind)
+  }
+
 
 }
 
