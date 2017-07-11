@@ -1,41 +1,30 @@
 var path = require('path')
+let ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
-    entry: {
-        "angular-datepicker-chs": path.resolve(__dirname, './src/datepicker.js')
-    },
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].js',
-        libraryTarget: 'umd'
-    },
-    module: {
-        rules: [{
-            test: /\.jsx?$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/
-        }, {
-            test: /\.html$/,
-            loader: 'html-loader'
-        }, {
-            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-            loader: 'url-loader',
-            options: {
-                limit: 10000,
-                name: 'static/img/[name].[ext]'
-            }
-        }, {
-            test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-            loader: 'url-loader',
-            options: {
-                limit: 10000,
-                name: 'static/fonts/[name].[ext]'
-            }
-        }, {
-            test: /\.css$/,
-            loader: 'style-loader!css-loader'
-        }, {
-            test: /\.less$/,
-            loader: 'style-loader!css-loader!less-loader'
-        }]
-    }
+  entry: {
+    "angular-datepicker-chs": path.resolve(__dirname, './src/datepicker.js')
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].js',
+    libraryTarget: 'umd'
+  },
+  externals: {
+    angular: "angular",
+    moment: "moment",
+  },
+  module: {
+    rules: [{
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/
+    }, {
+      test: /\.html$/,
+      loader: 'html-loader'
+    }, {
+      test: /\.less$/,
+      loader: ExtractTextPlugin.extract(['css-loader', 'less-loader'])
+    }]
+  },
+  plugins: [new ExtractTextPlugin({filename: 'style.css'}),]
 }

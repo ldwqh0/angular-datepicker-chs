@@ -15,12 +15,14 @@
     width: 100%;
   }
   ul {
-    width: 250px;
+    width: 200px;
     padding: 0;
     margin: 0;
   }
   a {
+    color: #111111;
     display: block;
+    text-decoration: none;
   }
   .header {
     text-align: center;
@@ -28,31 +30,63 @@
       height: @header-height;
       line-height: @header-height;
     }
+    .prev, .next {
+      width: 30px;
+      cursor: pointer;
+    }
+    .prev:hover, .next:hover {
+      background-color: #eeeeee;
+    }
     .prev {
       float: left;
     }
     .current {
+      padding: 0 10px;
       display: inline-block;
+    }
+    .current:hover {
+      background-color: #eeeeee;
     }
     .next {
       float: right;
     }
   }
-  .year li, .month li {
-    width: 25%;
+  .year li, .month li, .day li {
     float: left;
     list-style: none;
     text-align: center;
+  }
+
+  .year li, .month li {
     height: @picker-height;
     line-height: @picker-height;
   }
+
   .day li {
-    width: 14.2857%;
-    float: left;
-    list-style: none;
-    text-align: center;
     height: @date-picker-height;
     line-height: @date-picker-height;
+  }
+
+  .year li.value, .month li.value, .day li.value {
+    background-color: #0058cc;
+    a {
+      color: white;
+    }
+  }
+
+  .day li {
+    width: 14.2857%;
+  }
+  .day li.notcurrent a {
+    color: #999;
+  }
+
+  .year li, .month li {
+    width: 25%;
+  }
+
+  .year li:hover, .month li:hover, .day li:hover {
+    background-color: #eeeeee;
   }
 
   .picker-wrapper {
