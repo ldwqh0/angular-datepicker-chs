@@ -168,11 +168,11 @@ function DatePickerController($scope, $document, $element) {
     let first = moment(new Date(year, month, days[0].date))
     let last = moment(new Date(year, month, dayCount))
     for (let i = first.day(); i > 0; i--) {
-      first.subtract('d', 1)
+      first.subtract(1, 'd')
       days.unshift({year: first.year(), month: first.month(), date: first.date()})
     }
     for (let i = last.day(); i < 6; i++) {
-      last.add('d', 1)
+      last.add(1, 'd')
       days.push({year: last.year(), month: last.month(), date: last.date()})
     }
 
