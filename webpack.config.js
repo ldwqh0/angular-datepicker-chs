@@ -26,5 +26,5 @@ module.exports = {
       loader: ExtractTextPlugin.extract(['css-loader', 'less-loader'])
     }]
   },
-  plugins: [new ExtractTextPlugin({filename: 'style.css'}),]
+  plugins: [new ExtractTextPlugin({filename: 'style.css'})]
 }

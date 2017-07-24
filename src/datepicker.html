@@ -1,5 +1,5 @@
 <div class="datepicker">
-  <div class="form-control" ng-click="$ctrl.isOpen=true">{{$ctrl.value | date:'yyyy-MM-dd'}}</div>
+  <div class="form-control" ng-click="$ctrl.open()">{{$ctrl.value | date:'yyyy-MM-dd'}}</div>
   <picker-wrapper class="picker-wrapper" ng-if="$ctrl.isOpen">
     <div ng-show="$ctrl.view==='year'" class="year">
       <div class="header clearfix">

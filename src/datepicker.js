@@ -64,8 +64,9 @@ let component = {
     miniView: "<?"
   }
 }
-DatePickerController.$inject = ['$scope', '$document', '$element']
-function DatePickerController($scope, $document, $element) {
+DatePickerController.$inject = ['$scope', '$document', '$element', '$log']
+
+function DatePickerController($scope, $document, $element, $log) {
   let $ctrl = this
   $ctrl.current = moment()
   $ctrl.view = 'day'
@@ -73,6 +74,7 @@ function DatePickerController($scope, $document, $element) {
   $ctrl.months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   $ctrl.days = []
   $ctrl.isOpen = false
+  $ctrl.disabled = false
 
 
   if (!$ctrl.miniView) {
@@ -184,12 +186,22 @@ function DatePickerController($scope, $document, $element) {
   $ctrl.setCurrent()
 
   $ctrl.$onInit = function () {
+
     $document.on('click', documentClickBind)
   }
 
   $ctrl.$onDestroy = function () {
     $document.off('click', documentClickBind)
   }
+
+  $ctrl.open = function () {
+    if ($element.attr('disabled') === 'disabled') {
+      $log.debug('component is disabled!')
+    } else {
+      $ctrl.isOpen = true
+    }
+  }
+
 
   /**
    * 单击文档的任意部分，隐藏选择框
