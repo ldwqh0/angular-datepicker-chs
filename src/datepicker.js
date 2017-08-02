@@ -76,6 +76,7 @@ function DatePickerController($scope, $document, $element, $log) {
   $ctrl.days = []
   $ctrl.minView = 'day'
   $ctrl.format = 'yyyy-MM-dd'
+  $ctrl.value = $ctrl.current.toDate()
 
   $ctrl.$onChanges = function (obj) {
     if (obj.minView) {
@@ -83,9 +84,6 @@ function DatePickerController($scope, $document, $element, $log) {
         $ctrl.view = $ctrl.minView
       }
     }
-  }
-  if (!$ctrl.value) {
-    $ctrl.value = $ctrl.current.toDate()
   }
 
   $ctrl.next = function () {
