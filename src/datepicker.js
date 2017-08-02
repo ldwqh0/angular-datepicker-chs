@@ -56,114 +56,108 @@ function getDays(year, month) {
 
 let module = angular.module('datepicker', ['ui.bootstrap'])
 
-let component = {
-  template,
-  controller: DatePickerController,
-  bindings: {
-    value: "=?ngModel",
-    minView: "@?",
-    format: '@?'
+
+class DatePickerController {
+  static $inject = ['$element']
+  current = moment()
+  view = 'day'
+  years = []
+  months = []
+  days = []
+  minView = 'day'
+  format = 'yyyy-MM-dd'
+  value = this.current.toDate()
+
+  constructor($element) {
+    this.$element = $element
   }
-}
-DatePickerController.$inject = ['$scope', '$document', '$element', '$log']
 
-function DatePickerController($scope, $document, $element, $log) {
-  let $ctrl = this
-  $ctrl.current = moment()
-  $ctrl.view = 'day'
-  $ctrl.years = []
-  $ctrl.months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-  $ctrl.days = []
-  $ctrl.minView = 'day'
-  $ctrl.format = 'yyyy-MM-dd'
-  $ctrl.value = $ctrl.current.toDate()
-
-  $ctrl.$onChanges = function (obj) {
+  $onChanges(obj) {
+    console.log(DatePickerController)
     if (obj.minView) {
-      if (viewAfter($ctrl.view, $ctrl.minView)) {
-        $ctrl.view = $ctrl.minView
+      if (viewAfter(this.view, this.minView)) {
+        this.view = this.minView
       }
     }
   }
 
-  $ctrl.next = function () {
-    switch ($ctrl.view) {
+  next() {
+    switch (this.view) {
       case 'year':
-        $ctrl.current.add(12, 'y')
+        this.current.add(12, 'y')
         break
       case 'month':
-        $ctrl.current.add(1, 'y')
+        this.current.add(1, 'y')
         break
       case 'day':
-        $ctrl.current.add(1, 'M')
+        this.current.add(1, 'M')
         break
     }
-    $ctrl.setCurrent()
+    this.setCurrent()
   }
 
-  $ctrl.prev = function () {
-    switch ($ctrl.view) {
+  prev() {
+    switch (this.view) {
       case 'year':
-        $ctrl.current.subtract(12, 'y')
+        this.current.subtract(12, 'y')
         break
       case 'month':
-        $ctrl.current.subtract(1, 'y')
+        this.current.subtract(1, 'y')
         break
       case 'day':
-        $ctrl.current.subtract(1, 'M')
+        this.current.subtract(1, 'M')
         break
     }
-    $ctrl.setCurrent()
+    this.setCurrent()
   }
 
-  // 设置视图
-  $ctrl.setView = function (type) {
-    if (viewAfter(type, $ctrl.minView)) {
-      $ctrl.value = $ctrl.current.toDate()
-      $ctrl.isOpen = false
+  setView(type) {
+    if (viewAfter(type, this.minView)) {
+      this.value = this.current.toDate()
+      this.isOpen = false
     } else {
-      $ctrl.view = type
+      this.view = type
     }
   }
 
-  $ctrl.isCurrent = function (type, value) {
+  isCurrent(type, value) {
     switch (type) {
       case "year":
-        return $ctrl.value.getFullYear() === value
+        return this.value.getFullYear() === value
         break
       case "month":
-        return $ctrl.value.getMonth() === value
+        return this.value.getMonth() === value
         break
       case "day":
-        return $ctrl.value.getDay() === value
+        return this.value.getDay() === value
         break
     }
   }
 
-  // 设置当前视图的值
-  $ctrl.setCurrent = function (data) {
+  setCurrent(data) {
+    let $ctrl = this
     if (data) {
       if (data.year) {
-        $ctrl.current.year(data.year)
+        this.current.year(data.year)
       }
       if (data.month) {
-        $ctrl.current.month(data.month)
+        this.current.month(data.month)
       }
       if (data.date) {
-        $ctrl.current.date(data.date)
+        this.current.date(data.date)
       }
     }
 
     // 在当前的视图值改变之后，设置页面列表项
-    let year = $ctrl.current.year()
-    let month = $ctrl.current.month()
-    let date = $ctrl.current.date()
+    let year = this.current.year()
+    let month = this.current.month()
+    let date = this.current.date()
     let years = []
     let days = []
     for (let i = year - 5; i < year + 7; i++) {
       years.push(i)
     }
-    $ctrl.years = years
+    this.years = years
     let dayCount = getDays(year, month)
     for (let i = 0; i < dayCount; i++) {
       days.push({year, month, date: i + 1})
@@ -184,11 +178,23 @@ function DatePickerController($scope, $document, $element, $log) {
     return true
   }
 
-  // 初始化一次选项卡
-  $ctrl.setCurrent()
+  getDisabled() {
+    return this.$element.attr('disabled') === 'disabled'
+  }
 
-  $ctrl.getDisabled = function () {
-    return $element.attr('disabled') === 'disabled'
+  $onInit() {
+    this.setCurrent()
+  }
+
+}
+
+let component = {
+  template,
+  controller: DatePickerController,
+  bindings: {
+    value: "=?ngModel",
+    minView: "@?",
+    format: '@?'
   }
 }
 
