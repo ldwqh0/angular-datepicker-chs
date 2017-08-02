@@ -1,6 +1,7 @@
-<div class="datepicker">
-  <div class="form-control" ng-click="$ctrl.open()">{{$ctrl.value | date:'yyyy-MM-dd'}}</div>
-  <picker-wrapper class="picker-wrapper" ng-if="$ctrl.isOpen">
+<div class="datepicker" uib-dropdown is-open="$ctrl.isOpen" auto-close="outsideClick">
+  <div ng-if="$ctrl.getDisabled()" class="form-control">{{$ctrl.value | date:$ctrl.format}}</div>
+  <div ng-if="!$ctrl.getDisabled()" uib-dropdown-toggle class="form-control">{{$ctrl.value | date:$ctrl.format}}</div>
+  <div uib-dropdown-menu class="picker-wrapper">
     <div ng-show="$ctrl.view==='year'" class="year">
       <div class="header clearfix">
         <div class="prev"><a ng-click="$ctrl.prev()">‹</a></div>
@@ -53,5 +54,5 @@
       </ul>
     </div>
     <div ng-show="view=='hour'">小时视图</div>
-  </picker-wrapper>
+  </div>
 </div>

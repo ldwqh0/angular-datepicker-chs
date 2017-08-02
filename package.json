@@ -1,6 +1,6 @@
 {
   "name": "angular-datepicker-chs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "dist/angular-datepicker-chs",
   "scripts": {
@@ -18,6 +18,8 @@
     "url": "https://github.com/ldwqh0/angular-datepicker-chs/issues"
   },
   "devDependencies": {
+    "angular": "^1.6.5",
+    "angular-ui-bootstrap": "^2.5.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
@@ -46,6 +48,7 @@
   "homepage": "https://github.com/ldwqh0/angular-datepicker-chs#readme",
   "peerDependencies": {
     "angular": "^1.6.0",
+    "angular-ui-bootstrap": "^2.5.0",
     "moment": "^2.0.0"
   }
 }

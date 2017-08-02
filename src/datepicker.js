@@ -54,14 +54,15 @@ function getDays(year, month) {
   return DAYS_IN_MONTH[month]
 }
 
-let module = angular.module('datepicker', [])
+let module = angular.module('datepicker', ['ui.bootstrap'])
 
 let component = {
   template,
   controller: DatePickerController,
   bindings: {
     value: "=?ngModel",
-    miniView: "<?"
+    minView: "@?",
+    format: '@?'
   }
 }
 DatePickerController.$inject = ['$scope', '$document', '$element', '$log']
@@ -73,12 +74,15 @@ function DatePickerController($scope, $document, $element, $log) {
   $ctrl.years = []
   $ctrl.months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   $ctrl.days = []
-  $ctrl.isOpen = false
-  $ctrl.disabled = false
+  $ctrl.minView = 'day'
+  $ctrl.format = 'yyyy-MM-dd'
 
-
-  if (!$ctrl.miniView) {
-    $ctrl.miniView = 'day'
+  $ctrl.$onChanges = function (obj) {
+    if (obj.minView) {
+      if (viewAfter($ctrl.view, $ctrl.minView)) {
+        $ctrl.view = $ctrl.minView
+      }
+    }
   }
   if (!$ctrl.value) {
     $ctrl.value = $ctrl.current.toDate()
@@ -116,9 +120,9 @@ function DatePickerController($scope, $document, $element, $log) {
 
   // 设置视图
   $ctrl.setView = function (type) {
-    if (viewAfter(type, $ctrl.miniView)) {
-      $ctrl.isOpen = false
+    if (viewAfter(type, $ctrl.minView)) {
       $ctrl.value = $ctrl.current.toDate()
+      $ctrl.isOpen = false
     } else {
       $ctrl.view = type
     }
@@ -185,37 +189,9 @@ function DatePickerController($scope, $document, $element, $log) {
   // 初始化一次选项卡
   $ctrl.setCurrent()
 
-  $ctrl.$onInit = function () {
-
-    $document.on('click', documentClickBind)
+  $ctrl.getDisabled = function () {
+    return $element.attr('disabled') === 'disabled'
   }
-
-  $ctrl.$onDestroy = function () {
-    $document.off('click', documentClickBind)
-  }
-
-  $ctrl.open = function () {
-    if ($element.attr('disabled') === 'disabled') {
-      $log.debug('component is disabled!')
-    } else {
-      $ctrl.isOpen = true
-    }
-  }
-
-
-  /**
-   * 单击文档的任意部分，隐藏选择框
-   * @param event
-   */
-  function documentClickBind(event) {
-    let dpContainsTarget = isChildrenOf($element[0], event.target) || isChildrenOf($element.find('picker-wrapper')[0], event.target)
-    if ($ctrl.isOpen && !dpContainsTarget) {
-      $scope.$apply(() => {
-        $ctrl.isOpen = false
-      })
-    }
-  }
-
 }
 
 module.component('datepicker', component)
