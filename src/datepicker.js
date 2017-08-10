@@ -137,6 +137,7 @@ class DatePickerController {
     if (viewAfter(type, this.minView)) {
       this.value = getValue(this.minView, this.current).toDate()
       this.isOpen = false
+      this.ngChange()
     } else {
       this.view = type
     }
@@ -216,7 +217,8 @@ let component = {
   bindings: {
     value: "=?ngModel",
     minView: "@?",
-    format: '@?'
+    format: '@?',
+    ngChange: '&'
   }
 }
 
