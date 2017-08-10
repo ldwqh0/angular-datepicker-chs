@@ -54,6 +54,26 @@ function getDays(year, month) {
   return DAYS_IN_MONTH[month]
 }
 
+function getValue(type, date) {
+  if (date) {
+    let v = date
+    if (viewAfter('hour', type)) {
+      v.millisecond(0)
+      v.second(0)
+      v.minute(0)
+      v.hour(0)
+    }
+
+    if (viewAfter('day', type)) {
+      v.day(1)
+    }
+    if (viewAfter('month', type)) {
+      v.month(0)
+    }
+    return v
+  }
+}
+
 let module = angular.module('datepicker', ['ui.bootstrap'])
 
 
@@ -62,7 +82,7 @@ class DatePickerController {
   current = moment()
   view = 'day'
   years = []
-  months = []
+  months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   days = []
   minView = 'day'
   format = 'yyyy-MM-dd'
@@ -73,8 +93,10 @@ class DatePickerController {
   }
 
   $onChanges(obj) {
-    console.log(DatePickerController)
     if (obj.minView) {
+      if (this.value) {
+        this.value = getValue(this.minView, moment(this.value)).toDate()
+      }
       if (viewAfter(this.view, this.minView)) {
         this.view = this.minView
       }
@@ -113,7 +135,7 @@ class DatePickerController {
 
   setView(type) {
     if (viewAfter(type, this.minView)) {
-      this.value = this.current.toDate()
+      this.value = getValue(this.minView, this.current).toDate()
       this.isOpen = false
     } else {
       this.view = type
