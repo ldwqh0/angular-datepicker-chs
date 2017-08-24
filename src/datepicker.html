@@ -1,58 +1,17 @@
-<div class="datepicker" uib-dropdown is-open="$ctrl.isOpen" auto-close="outsideClick">
-  <div ng-if="$ctrl.getDisabled()" class="form-control">{{$ctrl.value | date:$ctrl.format}}</div>
-  <div ng-if="!$ctrl.getDisabled()" uib-dropdown-toggle class="form-control">{{$ctrl.value | date:$ctrl.format}}</div>
-  <div uib-dropdown-menu class="picker-wrapper">
-    <div ng-show="$ctrl.view==='year'" class="year">
-      <div class="header clearfix">
-        <div class="prev"><a ng-click="$ctrl.prev()">‹</a></div>
-        <div class="current">{{$ctrl.current.year()-5}}-{{$ctrl.current.year()+6}}</div>
-        <div class="next"><a ng-click="$ctrl.next()">›</a></div>
-      </div>
-      <ul class="clearfix">
-        <li ng-repeat="y in $ctrl.years" ng-class="{'value':$ctrl.value.getFullYear()===y}">
-          <a ng-click="$ctrl.setCurrent({year:y}) && $ctrl.setView('month')" href="javascript:void(0)">{{y}}</a>
-        </li>
-      </ul>
-    </div>
-    <div ng-show="$ctrl.view=='month'" class="month">
-      <div class="header clearfix">
-        <div class="prev"><a href="javascript:void(0)" ng-click="$ctrl.prev()">‹</a>
-        </div>
-        <div class="current"><a ng-click="$ctrl.setView('year')" href="javascript:void(0)">{{$ctrl.current.year()}}</a>
-        </div>
-        <div class="next"><a href="javascript:void(0)" ng-click="$ctrl.next()">›</a>
-        </div>
-      </div>
-      <ul class="clearfix">
-        <li ng-repeat="m in $ctrl.months" ng-class="{'value':$ctrl.value.getMonth()===m}">
-          <a ng-click="$ctrl.setCurrent({month:m}) && $ctrl.setView('day')" href="javascript:void(0)">{{m+1}}</a></li>
-      </ul>
-    </div>
-    <div ng-show="$ctrl.view=='day'" class="day">
-      <div class="header clearfix">
-        <div class="prev"><a ng-click="$ctrl.prev()">‹</a></div>
-        <div class="current">
-          <a ng-click="$ctrl.setView('month')"
-             href="javascript:void(0)">{{$ctrl.current.year()}}年{{$ctrl.current.month()+1}}月</a>
-        </div>
-        <div class="next"><a ng-click="$ctrl.next()">›</a></div>
-      </div>
-      <ul class="clearfix">
-        <li>日</li>
-        <li>一</li>
-        <li>二</li>
-        <li>三</li>
-        <li>四</li>
-        <li>五</li>
-        <li>六</li>
-      </ul>
-      <ul class="clearfix">
-        <li ng-repeat="d in $ctrl.days"
-            ng-class="{'value':$ctrl.value.getMonth()===d.month && $ctrl.value.getDate()===d.date,'notcurrent':$ctrl.current.month()!==d.month}">
-          <a ng-click="$ctrl.setCurrent(d) && $ctrl.setView('hour',d) " href="javascript:void(0)">{{d.date}}</a>
-        </li>
-      </ul>
-    </div>
-    <div ng-show="view=='hour'">小时视图</div>
-  </div>
+<div class="input-group">
+  <input type="text" readonly class="form-control"
+         style="background: white;"
+         close-text="关闭"
+         current-text="今日"
+         clear-text="清空"
+         on-open-focus="false"
+         show-button-bar="false"
+         uib-datepicker-popup="{{$ctrl.format}}" is-open="$ctrl.isOpen"
+         datepicker-options="$ctrl.datepickerOptions"
+         ng-click="$ctrl.open()"
+         ng-model="$ctrl.ngModel">
+  <!--<span class="input-group-btn">-->
+  <!--<button type="button" class="btn btn-default" ng-click="$ctrl.isOpen=!$ctrl.isOpen"><i-->
+  <!--class="glyphicon glyphicon-calendar"></i></button>-->
+  <!--</span>-->
 </div>
